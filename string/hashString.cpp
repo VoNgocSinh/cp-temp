@@ -34,3 +34,4 @@ struct HashString {
         return (hashVal[r][pos] - hashVal[l - 1][pos] * pw[r - l + 1][pos] + modHash[pos] * modHash[pos]) % modHash[pos];
     }
 };
+
