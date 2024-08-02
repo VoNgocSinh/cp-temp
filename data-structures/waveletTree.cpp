@@ -55,4 +55,19 @@ struct WaveletTree {
 
     }
 
+    int cnt(int posL, int posR, int k) {
+ 
+        if (l > k || posL > posR)
+            return 0;
+ 
+        if (r <= k)
+            return posR - posL + 1;
+        
+        int cntL = prefix[posL - 1];
+        int cntR = prefix[posR];
+ 
+        return childL->cnt(cntL + 1, cntR, k) + childR->cnt(posL - cntL, posR - cntR, k);
+ 
+    }
+
 } waveletTree;
