@@ -117,3 +117,82 @@ string pointInPolygon(point m, vector<point> & p) {
     return (cnt % 2 ? "INSIDE" : "OUTSIDE");
 
 }
+
+pair<long long, long long> pickTheorem(vector<point> & p) {
+
+    int sz = p.size();
+    long long O = 0;
+    for (int i = 0; i < sz; i++)
+        O += __gcd(abs(p[i].x - p[(i + 1) % sz].x), abs(p[i].y - p[(i + 1) % sz].y));
+
+    long long area = 0;
+    for (int i = 0; i < sz; i++)
+        area += (p[i].x - p[(i + 1) % sz].x) * (p[i].y + p[(i + 1) % sz].y);
+    long long I = (abs(area) - O) / 2 + 1;
+
+    return make_pair(I, O);
+
+}
+
+// Minimum Euclidean Distance
+inline long long distancePw2(point A, point B) {return (A.x - B.x) * (A.x - B.x) + (A.y - B.y) * (A.y - B.y);}
+long long minED(int l, int r, vector<point> & p) {
+
+    if (r - l + 1 <= 8) {
+
+        long long minDist = distancePw2(p[l], p[r]);
+        for (int i = l; i < r; i++)
+            for (int j = i + 1; j <= r; j++)
+                minDist = min(minDist, distancePw2(p[i], p[j]));
+        return minDist;
+    }
+ 
+    int mid = (l + r) >> 1;
+    int xmid = p[mid].x;
+    long long minDist = min(minED(l, mid, p), minED(mid + 1, r, p));
+
+    sort(p.begin() + l, p.begin() + mid + 1, [&](point A, point B) {
+ 
+        if (A.y != B.y)
+            return A.y < B.y;
+        
+        return A.x < B.x;
+ 
+    });
+
+    sort(p.begin() + mid + 1, p.begin() + r + 1, [&](point A, point B) {
+ 
+        if (A.y != B.y)
+            return A.y < B.y;
+        
+        return A.x < B.x;
+ 
+    });
+ 
+    deque<point> q;
+ 
+    int j = mid;
+ 
+    for (int i = l; i <= mid; i++) {
+ 
+ 
+        while (j + 1 <= r && (p[j + 1].y < p[i].y || (p[j + 1].y - p[i].y) * (p[j + 1].y - p[i].y) <= minDist)) {
+ 
+            j++;
+
+            if ((p[j].x - xmid) * (p[j].x - xmid) <= minDist)
+                q.push_back(p[j]);
+ 
+        }
+
+        while (q.size() && (q.front().y - p[i].y) * (q.front().y - p[i].y) > minDist)
+            q.pop_front();
+ 
+        for (point x : q)
+            minDist = min(minDist, distancePw2(p[i], x));
+ 
+    }
+ 
+    return minDist;
+ 
+}
