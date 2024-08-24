@@ -1,0 +1,53 @@
+{
+    "FILE CB": {
+    "scope": "",
+    "prefix": "manachar",
+    "body": [
+
+"//Tìm xâu con đối xứng dài nhất trong s",
+"int manacher(string s){",
+"",
+"    string t = " ";",
+"    for (int i=0;i<s.size();i++) {",
+"",
+"        t.push_back(s[i]);",
+"        t.push_back(' ');",
+"",
+"    }",
+"",
+"    int n = t.size();",
+"    vector<int> a(n+1,0);",
+"    a[0] = 1;",
+"    int c = 1;",
+"    int r = 1;",
+"    int res = 0;",
+"",
+"    for (int i=1;i<n;i++) {",
+"    ",
+"        int l = 2*c-i;",
+"        if (l>0 && r>i) ",
+"            a[i] = min(r-i,a[l]);",
+"        else ",
+"            a[i] = 0;",
+"",
+"        while (i-a[i]-1>=0 && i+a[i]+1<n && t[i-a[i]-1]==t[i+a[i]+1]) a[i]++;",
+"        ",
+"        if (i+a[i]>r){",
+"        ",
+"            c = i;",
+"            r = i+a[i];",
+"        }",
+"        ",
+"        res = max(res,a[i]);",
+"",
+"    }",
+"",
+"    return res;",
+"",
+"}",
+
+    ],
+    "description": "template"
+    }
+}
+

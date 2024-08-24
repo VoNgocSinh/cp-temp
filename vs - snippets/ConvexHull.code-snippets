@@ -1,0 +1,33 @@
+{
+"ConvexHull": {
+  "prefix": "convexhull",
+  "body": [
+    "vector<point> convexHull(vector<point> p, int n) {",
+    "    sort(p.begin(), p.end(), [](const point &A, const point &B) {",
+    "        if (A.x != B.x)",
+    "            return A.x < B.x;",
+    "        return A.y < B.y;",
+    "    });",
+    " ",
+    "    vector<point> hull;",
+    "    hull.push_back(p[0]);    ",
+    " ",
+    "    for (int i = 1; i < n; i++) {",
+    "        while (hull.size() > 1 && cww(hull[hull.size() - 2], hull[hull.size() - 1], p[i]) > 0) hull.pop_back();",
+    "        hull.push_back(p[i]);",
+    "    }",
+    " ",
+    "    for (int i = n - 2; i >= 0; i--) {",
+    "        while (hull.size() > 1 && cww(hull[hull.size() - 2], hull[hull.size() - 1], p[i]) > 0) hull.pop_back();",
+    "        hull.push_back(p[i]);",
+    "    }",
+    " ",
+    "    if (hull.size() > 1)",
+    "        hull.pop_back();",
+    " ",
+    "    return hull;",
+    "}"
+  ],
+  "description": "ConvexHull"
+}
+}

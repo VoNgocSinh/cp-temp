@@ -1,0 +1,13 @@
+{
+	"FILE CB": {
+	"scope": "",
+	"prefix": "pw",
+	"body": [
+
+"template<class A> inline A sqr(A a) { return a * a; };",
+"template<class A> inline A pw(A a, long long b, long long mod) {return (b == 0 ? 1 : (b == 1 ? a : (sqr(pw(a, b / 2, mod)) % mod) * max(1ll,(b % 2) * a))) % mod; };",
+
+],
+"description": "template"
+}
+}
